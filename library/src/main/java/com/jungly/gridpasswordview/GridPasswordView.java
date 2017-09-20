@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -51,6 +52,7 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
     private int mPasswordLength;
     private String mPasswordTransformation;
     private int mPasswordType;
+    private Typeface mTypeface;
 
     private String[] mPasswordArr;
     private TextView[] mViewArr;
@@ -119,7 +121,7 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
         mViewArr = new TextView[mPasswordLength];
     }
 
-    public GridPasswordView(Context context, ColorStateList textColor, int textSize, int lineWidth, int lineColor, int gridColor, int passwordLength) {
+    public GridPasswordView(Context context, ColorStateList textColor, int textSize, int lineWidth, int lineColor, int gridColor, int passwordLength, Typeface typeface) {
         super(context);
         mTextColor = textColor;
         if (mTextColor == null) {
@@ -137,6 +139,7 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
         mPasswordLength = passwordLength;
         mPasswordTransformation = DEFAULT_TRANSFORMATION;
         mPasswordType = 0;
+        mTypeface = typeface;
 
         mPasswordArr = new String[passwordLength];
         mViewArr = new TextView[passwordLength];
@@ -178,6 +181,12 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
 
             mViewArr[index] = textView;
             index++;
+        }
+
+        if (mTypeface != null) {
+            for (int i = 0; i < mPasswordLength; i++) {
+                mViewArr[i].setTypeface(mTypeface);
+            }
         }
 
         setOnClickListener(mOnClickListener);
