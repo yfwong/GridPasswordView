@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -116,6 +117,20 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
 
         mPasswordArr = new String[mPasswordLength];
         mViewArr = new TextView[mPasswordLength];
+    }
+
+    public GridPasswordView(Context context, ColorStateList mTextColor, int mTextSize, int mLineWidth, int mLineColor, int mGridColor, int mPasswordLength) {
+        super(context);
+        this.mTextColor = mTextColor;
+        this.mTextSize = mTextSize;
+        this.mLineWidth = mLineWidth;
+        this.mLineColor = mLineColor;
+        this.mGridColor = mGridColor;
+        this.mPasswordLength = mPasswordLength;
+
+        mPasswordArr = new String[mPasswordLength];
+        mViewArr = new TextView[mPasswordLength];
+        initViews(context);
     }
 
     private void initViews(Context context) {
