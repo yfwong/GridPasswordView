@@ -31,8 +31,8 @@ import com.jungly.gridpasswordview.imebugfixer.ImeDelBugFixedEditText;
  * ●
  *
  * @author Jungly
- * jungly.ik@gmail.com
- * 15/3/5 21:30
+ *         jungly.ik@gmail.com
+ *         15/3/5 21:30
  */
 public class GridPasswordView extends LinearLayout implements PasswordView {
     private static final int DEFAULT_PASSWORDLENGTH = 6;
@@ -119,17 +119,27 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
         mViewArr = new TextView[mPasswordLength];
     }
 
-    public GridPasswordView(Context context, ColorStateList mTextColor, int mTextSize, int mLineWidth, int mLineColor, int mGridColor, int mPasswordLength) {
+    public GridPasswordView(Context context, ColorStateList textColor, int textSize, int lineWidth, int lineColor, int gridColor, int passwordLength) {
         super(context);
-        this.mTextColor = mTextColor;
-        this.mTextSize = mTextSize;
-        this.mLineWidth = mLineWidth;
-        this.mLineColor = mLineColor;
-        this.mGridColor = mGridColor;
-        this.mPasswordLength = mPasswordLength;
+        mTextColor = textColor;
+        if (mTextColor == null) {
+            mTextColor = ColorStateList.valueOf(getResources().getColor(android.R.color.primary_text_light));
+        }
+        if (textSize != -1) {
+            mTextSize = Util.px2sp(context, textSize);
+        }
+        mLineWidth = lineWidth;
+        mLineColor = lineColor;
+        mGridColor = gridColor;
+        mLineDrawable = new ColorDrawable(mLineColor);
+        mOuterLineDrawable = generateBackgroundDrawable();
 
-        mPasswordArr = new String[mPasswordLength];
-        mViewArr = new TextView[mPasswordLength];
+        mPasswordLength = passwordLength;
+        mPasswordTransformation = DEFAULT_TRANSFORMATION;
+        mPasswordType = 0;
+
+        mPasswordArr = new String[passwordLength];
+        mViewArr = new TextView[passwordLength];
         initViews(context);
     }
 
@@ -457,12 +467,14 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
 
         /**
          * Invoked when the password changed.
+         *
          * @param psw new text
          */
         void onTextChanged(String psw);
 
         /**
          * Invoked when the password is at the maximum length.
+         *
          * @param psw complete text
          */
         void onInputFinish(String psw);
